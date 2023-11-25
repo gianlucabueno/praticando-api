@@ -13,7 +13,7 @@ pipeline {
     }
     stage("Build") {
       steps {
-        sh 'docker build -t my-app ./Dockerfile'
+        sh 'docker build -t my-app ./Dockerfile '
       }
     }
     stage('Start container') {
