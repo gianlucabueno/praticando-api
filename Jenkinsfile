@@ -1,15 +1,25 @@
 pipeline {
   agent any
   stages {
+    stage("verify tooling") {
+      steps {
+        sh '''
+          docker version
+          docker info
+          docker compose version 
+          curl --version
+          '''
+      }
+    }
     stage('Start container') {
       steps {
-        bat 'docker compose -f docker-compose.stage.yml up -d --no-color --wait'
-        bat 'docker compose -f docker-compose.stage.yml ps'
+        sh 'docker compose -f docker-compose.stage.yml up -d --no-color --wait'
+        sh 'docker compose -f docker-compose.stage.yml ps'
       }
     }
     stage('Wait for container') {
       steps {
-        bat 'sleep 15'
+        sh 'sleep 15'
       }
     }
     stage('Run tests against the container') {
@@ -17,7 +27,7 @@ pipeline {
         script {
           def containerIds = sh(returnStdout: true, script: 'docker compose -f docker-compose.stage.yml ps -q').trim().split('\n')
           def desiredContainerId = containerIds[0] 
-          bat "docker exec '${desiredContainerId}' curl http://localhost:9090"
+          sh "docker exec '${desiredContainerId}' curl http://localhost:9090"
         }
       }
     }
@@ -42,4 +52,3 @@ pipeline {
       slackSend color: '#ff0000', message: "Deployment to stage failed!"
     }
   }
-}
