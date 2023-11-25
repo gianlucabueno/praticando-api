@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Start container') {
       steps {
-        sh 'docker compose -f docker-compose.stage.yml up -d --no-color --wait p 9090:9090'
+        sh 'docker compose -f docker-compose.stage.yml up -d --no-color --wait'
         sh 'docker compose -f docker-compose.stage.yml ps'
       }
     }
