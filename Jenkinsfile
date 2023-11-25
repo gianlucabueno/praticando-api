@@ -11,11 +11,6 @@ pipeline {
           '''
       }
     }
-    stage("Build") {
-      steps {
-        sh 'docker build -t praticando-api-main ./Dockerfile'
-      }
-    }
     stage('Start container') {
       steps {
         sh 'docker compose -f docker-compose.stage.yml up -d --no-color --wait'
