@@ -11,11 +11,6 @@ pipeline {
           '''
       }
     }
-    stage("Build") {
-        steps {
-          sh 'docker build -t my-app ./Dockerfile'
-        }
-    }
     stage('Start container') {
       steps {
         sh 'docker compose -f docker-compose.stage.yml up -d --no-color --wait'
