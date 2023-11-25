@@ -52,3 +52,4 @@ pipeline {
       slackSend color: '#ff0000', message: "Deployment to stage failed!"
     }
   }
+}
